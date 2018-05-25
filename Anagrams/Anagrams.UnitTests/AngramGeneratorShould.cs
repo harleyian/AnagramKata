@@ -78,12 +78,27 @@ namespace Anagrams.UnitTests
             }
 
             var result = new List<string>();
-            
-            result.Add(string.Format("{0} {1}", words[0], words[1]));
-            if (words.Count == 4)
+
+            for (int i = 0; i < words.Count; i++)
             {
-                result.Add(string.Format("{0} {1}", words[2], words[3]));
+                var currentWord = words[i];
+
+                for (int j = i+1; j < words.Count; j++)
+                {
+                    var nextWord = words[j];
+
+                    if (nextWord.Contains(currentWord.ToCharArray()[0]) && nextWord.Contains(currentWord.ToCharArray()[1]))
+                    {
+                        result.Add(currentWord + " " + nextWord);
+                    }
+                }
             }
+
+            //result.Add(string.Format("{0} {1}", words[0], words[1]));
+            //if (words.Count == 4)
+            //{
+            //    result.Add(string.Format("{0} {1}", words[2], words[3]));
+            //}
 
             return result;
         }

@@ -80,7 +80,7 @@ namespace Anagrams.UnitTests
             Assert.AreEqual(anagramList[1], "CD DC");
         }
 
-         [TestMethod]
+        [TestMethod]
         public void FindTwoAnagramsInNonSequentialOrderAndOneThreeLetterInput()
         {
             var inputList = new List<string> { "AB", "CD", "BA", "DC", "DCa" };
@@ -92,6 +92,20 @@ namespace Anagrams.UnitTests
             Assert.AreEqual(anagramList[0], "AB BA");
             Assert.AreEqual(anagramList[1], "CD DC");
         }
+
+        [TestMethod]
+        public void FindMultipleMatchesWithDifferentLengths()
+        {
+            var inputList = new List<string> { "ABC", "DEF", "ABD", "BA", "FED", "AB" };
+            var anagramGenerator = new AnagramGenerator();
+
+            var anagramList = anagramGenerator.GetAnagrams(inputList);
+            Assert.IsNotNull(anagramList);
+            Assert.AreEqual(anagramList.Count, 2);
+            Assert.AreEqual(anagramList[0], "DEF FED");
+            Assert.AreEqual(anagramList[1], "BA AB");
+        }
+
     }
 
     public class AnagramGenerator
@@ -116,10 +130,23 @@ namespace Anagrams.UnitTests
                     {
                         continue;
                     }
-                    if (nextWord.Contains(currentWord.ToCharArray()[0]) && nextWord.Contains(currentWord.ToCharArray()[1]))
+
+                    var currentWordCharArray = currentWord.ToCharArray();
+
+                    for (int k = 0; k < currentWordCharArray.Length; k++)
                     {
-                        result.Add(currentWord + " " + nextWord);
+                        if (!nextWord.Contains(currentWord.ToCharArray()[k]))
+                        {
+                            break;
+                        }
+
+                        if (k == currentWordCharArray.Length-1)
+                        {
+                            result.Add(currentWord + " " + nextWord);
+                        }
+                        
                     }
+                    
                 }
             }
             return result;

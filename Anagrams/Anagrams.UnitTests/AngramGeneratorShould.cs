@@ -109,7 +109,7 @@ namespace Anagrams.UnitTests
         [TestMethod]
         public void HandlemEmptyElementsInInput()
         {
-            var inputList = new List<string> { "ABC", "DEF", "ABD", "BA","", "FED", "AB", "" };
+            var inputList = new List<string> { "ABC", "DEF", "ABD", "BA", "", "FED", "AB", "" };
             var anagramGenerator = new AnagramGenerator();
 
             var anagramList = anagramGenerator.GetAnagrams(inputList);
@@ -144,7 +144,6 @@ namespace Anagrams.UnitTests
             Assert.AreEqual(anagramList[0], "ABDHE DABEH");
         }
 
-
         [TestMethod]
         public void HandleFourLetterWordAnagramsWithLowerCase()
         {
@@ -154,9 +153,33 @@ namespace Anagrams.UnitTests
             var anagramList = anagramGenerator.GetAnagrams(inputList);
             Assert.IsNotNull(anagramList);
             Assert.AreEqual(anagramList.Count, 1);
-            Assert.AreEqual(anagramList[0], "ABDHE DABEH");
+            Assert.AreEqual(anagramList[0], "ABDHE DABeh");
         }
 
+        [TestMethod]
+        public void HandleMultipleAnagramsMatching()
+        {
+            var inputList = new List<string>
+            {
+                "kinship",
+                "pinkish",
+                "enlist",
+                "inlets",
+                "listen",
+                "silent",
+                "random",
+                "not",
+                "matched"
+            };
+
+            var anagramGenerator = new AnagramGenerator();
+
+            var anagramList = anagramGenerator.GetAnagrams(inputList);
+            Assert.IsNotNull(anagramList);
+            Assert.AreEqual(7, anagramList.Count);
+            Assert.AreEqual("kinship pinkish", anagramList[0]);
+            Assert.AreEqual("enlist inlets listen silent", anagramList[1]);
+        }
     }
 
     public class AnagramGenerator
@@ -172,11 +195,11 @@ namespace Anagrams.UnitTests
 
             for (int i = 0; i < words.Count; i++)
             {
-                var currentWord = words[i];
+                var currentWord = words[i].ToLowerInvariant();
 
-                for (int j = i+1; j < words.Count; j++)
+                for (int j = i + 1; j < words.Count; j++)
                 {
-                    var nextWord = words[j];
+                    var nextWord = words[j].ToLowerInvariant();
                     if (nextWord.Length != currentWord.Length)
                     {
                         continue;
@@ -186,18 +209,18 @@ namespace Anagrams.UnitTests
 
                     for (int k = 0; k < currentWordCharArray.Length; k++)
                     {
-                        if (!nextWord.Contains(currentWord.ToCharArray()[k]))
+                        if (!nextWord.Contains(currentWordCharArray[k]))
                         {
                             break;
                         }
 
-                        if (k == currentWordCharArray.Length-1)
+                        if (k == currentWordCharArray.Length - 1)
                         {
-                            result.Add(currentWord + " " + nextWord);
+                            result.Add(words[i] + " " + words[j]);
                         }
-                        
+
                     }
-                    
+
                 }
             }
             return result;

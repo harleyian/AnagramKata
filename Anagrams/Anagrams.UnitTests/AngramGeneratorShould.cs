@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Anagrams.UnitTests
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
 
     [TestClass]
@@ -180,7 +181,23 @@ namespace Anagrams.UnitTests
             Assert.AreEqual("kinship pinkish", anagramList[0]);
             Assert.AreEqual("enlist inlets listen silent", anagramList[1]);
         }
+        
+        [TestMethod]
+        public void HandleHugeList()
+        {
+            var inputList = new List<string>();
+            var inputListFile = new System.IO.FileStream("C:\\Git\\codedojo\\Anagrams\\Anagrams\\Anagrams.UnitTests\\data\\wordlist.txt", FileMode.Open);
+            var textReader = new System.IO.StreamReader(inputListFile);
+            while (!textReader.EndOfStream)
+            {
+                inputList.Add(textReader.ReadLine());
+            }
+            var anagramGenerator = new AnagramGenerator();
 
+            var anagramList = anagramGenerator.GetAnagrams(inputList);
+            Assert.IsNotNull(anagramList);
+            Assert.AreEqual(30404, anagramList.Count);
+        }
     }
 
     public class AnagramGenerator

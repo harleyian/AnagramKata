@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Anagrams.UnitTests
 {
+    using System.Collections.Generic;
+
     [TestClass]
     public class AngramGeneratorShould
     {
@@ -14,7 +16,20 @@ namespace Anagrams.UnitTests
 
             var anagramList = anagramGenerator.GetAnagrams();
             Assert.IsNotNull(anagramList);
-            Assert.Equals(anagramList.Count, 0);
+            Assert.AreEqual(anagramList.Count, 0);
+        }
+    }
+
+    public class AnagramGenerator
+    {
+        public void AddDictionary(object o)
+        {
+            
+        }
+
+        public List<String> GetAnagrams()
+        {
+            return  new List<string>();
         }
     }
 }

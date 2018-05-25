@@ -83,7 +83,7 @@ namespace Anagrams.UnitTests
          [TestMethod]
         public void FindTwoAnagramsInNonSequentialOrderAndOneThreeLetterInput()
         {
-            var inputList = new List<string> { "AB", "CD", "BA", "DCa" };
+            var inputList = new List<string> { "AB", "CD", "BA", "DC", "DCa" };
             var anagramGenerator = new AnagramGenerator();
 
             var anagramList = anagramGenerator.GetAnagrams(inputList);
@@ -112,20 +112,16 @@ namespace Anagrams.UnitTests
                 for (int j = i+1; j < words.Count; j++)
                 {
                     var nextWord = words[j];
-
+                    if (nextWord.Length != currentWord.Length)
+                    {
+                        continue;
+                    }
                     if (nextWord.Contains(currentWord.ToCharArray()[0]) && nextWord.Contains(currentWord.ToCharArray()[1]))
                     {
                         result.Add(currentWord + " " + nextWord);
                     }
                 }
             }
-
-            //result.Add(string.Format("{0} {1}", words[0], words[1]));
-            //if (words.Count == 4)
-            //{
-            //    result.Add(string.Format("{0} {1}", words[2], words[3]));
-            //}
-
             return result;
         }
     }

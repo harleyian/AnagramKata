@@ -18,6 +18,19 @@ namespace Anagrams.UnitTests
             Assert.IsNotNull(anagramList);
             Assert.AreEqual(anagramList.Count, 0);
         }
+
+        [TestMethod]
+        public void FindOneAnagram()
+        {
+            var inputList = new List<string> { "AB", "BA" };
+            var anagramGenerator = new AnagramGenerator();
+
+            var anagramList = anagramGenerator.GetAnagrams();
+            Assert.IsNotNull(anagramList);
+            Assert.AreEqual(anagramList.Count, 1);
+            Assert.AreEqual(anagramList[0], "AB BA");
+        }
+
     }
 
     public class AnagramGenerator

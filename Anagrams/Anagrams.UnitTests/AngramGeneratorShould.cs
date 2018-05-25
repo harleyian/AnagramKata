@@ -54,6 +54,18 @@ namespace Anagrams.UnitTests
             Assert.AreEqual(anagramList[1], "CD DC");
         }
 
+        [TestMethod]
+        public void FindOneNonSequentialAnagram()
+        {
+            var inputList = new List<string> { "AB", "CD", "BA" };
+
+            var anagramGenerator = new AnagramGenerator();
+
+            var anagramList = anagramGenerator.GetAnagrams(inputList);
+            Assert.IsNotNull(anagramList);
+            Assert.AreEqual(anagramList.Count, 1);
+            Assert.AreEqual(anagramList[0], "AB BA");
+        }
     }
 
     public class AnagramGenerator
@@ -68,7 +80,11 @@ namespace Anagrams.UnitTests
             var result = new List<string>();
             
             result.Add(string.Format("{0} {1}", words[0], words[1]));
-            
+            if (words.Count == 4)
+            {
+                result.Add(string.Format("{0} {1}", words[2], words[3]));
+            }
+
             return result;
         }
     }

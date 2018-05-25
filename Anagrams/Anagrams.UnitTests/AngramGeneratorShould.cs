@@ -10,11 +10,21 @@ namespace Anagrams.UnitTests
     public class AngramGeneratorShould
     {
         [TestMethod]
-        public void HandlesEmptyList()
+        public void HandlesNullList()
         {
             var anagramGenerator = new AnagramGenerator();
 
             var anagramList = anagramGenerator.GetAnagrams(null);
+            Assert.IsNotNull(anagramList);
+            Assert.AreEqual(anagramList.Count, 0);
+        }
+
+        [TestMethod]
+        public void HandlesEmptyList()
+        {
+            var anagramGenerator = new AnagramGenerator();
+
+            var anagramList = anagramGenerator.GetAnagrams(new List<string>());
             Assert.IsNotNull(anagramList);
             Assert.AreEqual(anagramList.Count, 0);
         }

@@ -176,10 +176,11 @@ namespace Anagrams.UnitTests
 
             var anagramList = anagramGenerator.GetAnagrams(inputList);
             Assert.IsNotNull(anagramList);
-            Assert.AreEqual(7, anagramList.Count);
+            Assert.AreEqual(2, anagramList.Count);
             Assert.AreEqual("kinship pinkish", anagramList[0]);
             Assert.AreEqual("enlist inlets listen silent", anagramList[1]);
         }
+
     }
 
     public class AnagramGenerator
@@ -191,39 +192,40 @@ namespace Anagrams.UnitTests
                 return new List<string>();
             }
 
+            var anagramsList = new Dictionary<string, List<string>>();
             var result = new List<string>();
 
-            for (int i = 0; i < words.Count; i++)
+            foreach (var word in words)
             {
-                var currentWord = words[i].ToLowerInvariant();
-
-                for (int j = i + 1; j < words.Count; j++)
+                if (string.IsNullOrEmpty(word))
                 {
-                    var nextWord = words[j].ToLowerInvariant();
-                    if (nextWord.Length != currentWord.Length)
-                    {
-                        continue;
-                    }
+                    continue;
+                }
+                var key = GetAnagramKey(word);
+                if (anagramsList.ContainsKey(key))
+                {
+                    anagramsList[key].Add(word);
+                }
+                else
+                {
+                    anagramsList.Add(key, new List<string>{word});
+                }
+            }
 
-                    var currentWordCharArray = currentWord.ToCharArray();
-
-                    for (int k = 0; k < currentWordCharArray.Length; k++)
-                    {
-                        if (!nextWord.Contains(currentWordCharArray[k]))
-                        {
-                            break;
-                        }
-
-                        if (k == currentWordCharArray.Length - 1)
-                        {
-                            result.Add(words[i] + " " + words[j]);
-                        }
-
-                    }
-
+            foreach (var key in anagramsList.Keys)
+            {
+                if (anagramsList[key].Count > 1)
+                {
+                    result.Add(string.Join(" ", anagramsList[key]));
                 }
             }
             return result;
+        }
+
+        private string GetAnagramKey(string inputWord)
+        {
+            var chars = inputWord.ToLowerInvariant().OrderBy(x=>x);
+            return string.Concat(chars);
         }
     }
 }

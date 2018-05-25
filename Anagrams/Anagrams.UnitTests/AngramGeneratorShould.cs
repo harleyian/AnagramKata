@@ -66,6 +66,32 @@ namespace Anagrams.UnitTests
             Assert.AreEqual(anagramList.Count, 1);
             Assert.AreEqual(anagramList[0], "AB BA");
         }
+
+        [TestMethod]
+        public void FindTwoAnagramsInNonSequentialOrder()
+        {
+            var inputList = new List<string> { "AB", "CD", "BA", "DC" };
+            var anagramGenerator = new AnagramGenerator();
+
+            var anagramList = anagramGenerator.GetAnagrams(inputList);
+            Assert.IsNotNull(anagramList);
+            Assert.AreEqual(anagramList.Count, 2);
+            Assert.AreEqual(anagramList[0], "AB BA");
+            Assert.AreEqual(anagramList[1], "CD DC");
+        }
+
+         [TestMethod]
+        public void FindTwoAnagramsInNonSequentialOrderAndOneThreeLetterInput()
+        {
+            var inputList = new List<string> { "AB", "CD", "BA", "DCa" };
+            var anagramGenerator = new AnagramGenerator();
+
+            var anagramList = anagramGenerator.GetAnagrams(inputList);
+            Assert.IsNotNull(anagramList);
+            Assert.AreEqual(anagramList.Count, 2);
+            Assert.AreEqual(anagramList[0], "AB BA");
+            Assert.AreEqual(anagramList[1], "CD DC");
+        }
     }
 
     public class AnagramGenerator

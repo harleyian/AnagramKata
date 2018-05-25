@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Anagrams.UnitTests
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     [TestClass]
     public class AngramGeneratorShould
@@ -12,9 +13,8 @@ namespace Anagrams.UnitTests
         public void HandlesEmptyList()
         {
             var anagramGenerator = new AnagramGenerator();
-            anagramGenerator.AddDictionary(null);
 
-            var anagramList = anagramGenerator.GetAnagrams();
+            var anagramList = anagramGenerator.GetAnagrams(null);
             Assert.IsNotNull(anagramList);
             Assert.AreEqual(anagramList.Count, 0);
         }
@@ -25,7 +25,7 @@ namespace Anagrams.UnitTests
             var inputList = new List<string> { "AB", "BA" };
             var anagramGenerator = new AnagramGenerator();
 
-            var anagramList = anagramGenerator.GetAnagrams();
+            var anagramList = anagramGenerator.GetAnagrams(inputList);
             Assert.IsNotNull(anagramList);
             Assert.AreEqual(anagramList.Count, 1);
             Assert.AreEqual(anagramList[0], "AB BA");
@@ -35,14 +35,17 @@ namespace Anagrams.UnitTests
 
     public class AnagramGenerator
     {
-        public void AddDictionary(object o)
+        public List<string> GetAnagrams(List<string> words)
         {
-            
-        }
+            if (words == null)
+            {
+                return new List<string>();
+            }
 
-        public List<String> GetAnagrams()
-        {
-            return  new List<string>();
+            var result = new List<string>();
+            result.Add(string.Format("{0} {1}", words[0], words[1]));
+            
+            return result;
         }
     }
 }

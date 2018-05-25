@@ -41,18 +41,32 @@ namespace Anagrams.UnitTests
             Assert.AreEqual(anagramList[0], "AB BA");
         }
 
+        [TestMethod]
+        public void FindTwoAnagram()
+        {
+            var inputList = new List<string> { "AB", "BA", "CD", "DC" };
+            var anagramGenerator = new AnagramGenerator();
+
+            var anagramList = anagramGenerator.GetAnagrams(inputList);
+            Assert.IsNotNull(anagramList);
+            Assert.AreEqual(anagramList.Count, 2);
+            Assert.AreEqual(anagramList[0], "AB BA");
+            Assert.AreEqual(anagramList[1], "CD DC");
+        }
+
     }
 
     public class AnagramGenerator
     {
         public List<string> GetAnagrams(List<string> words)
         {
-            if (words == null)
+            if (words == null || words.Count == 0)
             {
                 return new List<string>();
             }
 
             var result = new List<string>();
+            
             result.Add(string.Format("{0} {1}", words[0], words[1]));
             
             return result;

@@ -106,6 +106,57 @@ namespace Anagrams.UnitTests
             Assert.AreEqual(anagramList[1], "BA AB");
         }
 
+        [TestMethod]
+        public void HandlemEmptyElementsInInput()
+        {
+            var inputList = new List<string> { "ABC", "DEF", "ABD", "BA","", "FED", "AB", "" };
+            var anagramGenerator = new AnagramGenerator();
+
+            var anagramList = anagramGenerator.GetAnagrams(inputList);
+            Assert.IsNotNull(anagramList);
+            Assert.AreEqual(anagramList.Count, 2);
+            Assert.AreEqual(anagramList[0], "DEF FED");
+            Assert.AreEqual(anagramList[1], "BA AB");
+        }
+
+        [TestMethod]
+        public void HandleFourLetterWordInput()
+        {
+            var inputList = new List<string> { "ABC", "DEF", "ABD", "BA", "FED", "AB", "ABDHE" };
+            var anagramGenerator = new AnagramGenerator();
+
+            var anagramList = anagramGenerator.GetAnagrams(inputList);
+            Assert.IsNotNull(anagramList);
+            Assert.AreEqual(anagramList.Count, 2);
+            Assert.AreEqual(anagramList[0], "DEF FED");
+            Assert.AreEqual(anagramList[1], "BA AB");
+        }
+
+        [TestMethod]
+        public void HandleFourLetterWordAnagrams()
+        {
+            var inputList = new List<string> { "ABDHE", "DABEH" };
+            var anagramGenerator = new AnagramGenerator();
+
+            var anagramList = anagramGenerator.GetAnagrams(inputList);
+            Assert.IsNotNull(anagramList);
+            Assert.AreEqual(anagramList.Count, 1);
+            Assert.AreEqual(anagramList[0], "ABDHE DABEH");
+        }
+
+
+        [TestMethod]
+        public void HandleFourLetterWordAnagramsWithLowerCase()
+        {
+            var inputList = new List<string> { "ABDHE", "DABeh" };
+            var anagramGenerator = new AnagramGenerator();
+
+            var anagramList = anagramGenerator.GetAnagrams(inputList);
+            Assert.IsNotNull(anagramList);
+            Assert.AreEqual(anagramList.Count, 1);
+            Assert.AreEqual(anagramList[0], "ABDHE DABEH");
+        }
+
     }
 
     public class AnagramGenerator
